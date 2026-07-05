@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You're booked — BeFound</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#142B49;--ink-2:#0C1B30;--ink-soft:#3E4E66;--muted:#69758A;
+  --paper:#EFDED4;--paper-2:#E6CDBD;--bone:#FAF3ED;
+  --orange:#CB6D51;--orange-deep:#A04528;
+  --green:#6E9C7C;--green-deep:#4E7B5C;
+  --line:rgba(20,43,73,.22);--line-soft:rgba(20,43,73,.1);
+  --display:"Montserrat",system-ui,sans-serif;
+  --font:"Inter",system-ui,sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --maxw:1100px;
+}
+*,*::before,*::after{box-sizing:border-box}*{margin:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:var(--paper);color:var(--ink-soft);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:var(--display);color:var(--ink);font-weight:800;line-height:1.1;letter-spacing:-.02em}
+.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(1.25rem,5vw,2.5rem)}
+section{padding:clamp(3.5rem,6vw,5.5rem) 0}
+.grain{position:fixed;inset:0;z-index:200;pointer-events:none;opacity:.03;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.btn{display:inline-flex;align-items:center;gap:.7rem;font-family:var(--font);font-weight:700;font-size:.98rem;color:#fff;background:var(--orange);border:none;cursor:pointer;padding:1.05rem 1.8rem;border-radius:3px;transition:background .2s var(--ease),transform .18s var(--ease)}
+.btn:hover{background:var(--orange-deep);transform:translateY(-1px)}
+.btn .arw{transition:transform .22s var(--ease)}.btn:hover .arw{transform:translateX(4px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:.6rem;background:transparent;border:1px solid rgba(250,246,239,.55);color:var(--bone);font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.95rem 1.6rem;border-radius:3px;transition:background .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease)}
+.btn-ghost:hover{background:var(--orange);border-color:var(--orange);color:#fff}
+.kick{font-size:.74rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--orange-deep);margin-bottom:.9rem;display:block}
+[data-reveal]{opacity:0;transform:translateY(16px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+[data-reveal].in{opacity:1;transform:none}
+
+/* top bar */
+.bar{display:flex;align-items:center;justify-content:space-between;padding:1rem clamp(1.25rem,4vw,2.5rem);position:absolute;top:0;left:0;right:0;z-index:5}
+.bar .logo-mark{height:44px;width:auto}
+
+/* ---------- CONFIRM HERO (dark, lit orb) ---------- */
+.confirm{position:relative;background:var(--ink-2);color:var(--paper);overflow:hidden;padding:clamp(6rem,10vw,7.5rem) 0 clamp(4rem,7vw,5.5rem);text-align:center}
+.confirm::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 30%,rgba(110,156,124,.16),transparent 62%),radial-gradient(70% 60% at 50% 100%,rgba(46,77,120,.28),transparent 66%)}
+.confirm .wrap{position:relative;display:flex;flex-direction:column;align-items:center}
+.orb{position:relative;width:clamp(240px,32vw,340px);margin-bottom:clamp(1.5rem,3vw,2.4rem)}
+.orb svg{width:100%;height:auto;display:block;overflow:visible}
+.orb svg path{fill:none;stroke:currentColor;stroke-width:1.1;opacity:0;transition:opacity .5s var(--ease);animation:orbwave 3s ease-in-out infinite;animation-delay:var(--wd,0s)}
+.orb svg circle{fill:currentColor;opacity:0;transition:opacity .5s var(--ease);animation:orbwave 3s ease-in-out infinite;animation-delay:var(--wd,0s)}
+.orb svg.on path,.orb svg.on circle{opacity:.9}
+.orb{color:var(--green);filter:drop-shadow(0 0 7px rgba(110,156,124,.5))}
+@keyframes orbwave{0%,100%{opacity:.4}50%{opacity:1}}
+.orb .core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.orb .core .chk{width:clamp(40px,7vw,54px);height:clamp(40px,7vw,54px);border-radius:50%;background:var(--green);display:grid;place-items:center;box-shadow:0 8px 24px -8px rgba(110,156,124,.8)}
+.orb .core .chk svg{width:52%;height:52%}
+.orb .core span{font-size:.64rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(250,243,237,.7)}
+.confirm .eyebrow{font-size:.74rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--green);margin-bottom:1.1rem}
+.confirm .cc{width:100%}
+.confirm h1{color:var(--bone);font-size:clamp(2rem,4.6vw,3.2rem);max-width:18ch;margin:0 auto 1.1rem}
+.confirm .sub{color:rgba(239,222,212,.82);max-width:46ch;margin:0 auto 1.9rem;font-size:clamp(1rem,1.3vw,1.15rem)}
+.confirm .cta-row{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+
+/* ---------- BEFORE YOU COME ---------- */
+.prep .head{text-align:center;max-width:34ch;margin-inline:auto}
+.prep .sec-h{font-size:clamp(1.7rem,3.4vw,2.4rem)}
+.prep .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2vw,1.5rem);margin-top:clamp(2.2rem,4vw,3rem)}
+.prep .step{background:var(--bone);border:1px solid var(--line-soft);border-radius:6px;padding:1.8rem 1.6rem}
+.prep .step .ic{width:44px;height:44px;border-radius:10px;background:var(--paper-2);display:grid;place-items:center;margin-bottom:1.1rem;color:var(--orange-deep)}
+.prep .step .ic svg{width:22px;height:22px}
+.prep .step b{font-family:var(--display);font-weight:700;color:var(--ink);display:block;margin-bottom:.45rem;font-size:1.08rem}
+.prep .step p{font-size:.95rem;color:var(--ink-soft)}
+
+/* ---------- STUDIO DETAILS ---------- */
+.where{background:var(--ink);color:var(--paper)}
+.where .wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:center}
+.where .kick{color:var(--orange)}
+.where h2{color:var(--bone);font-size:clamp(1.6rem,3vw,2.2rem);max-width:16ch}
+.where .addr{margin-top:1.3rem;display:grid;gap:1rem}
+.where .addr .row{display:flex;gap:.9rem;align-items:flex-start}
+.where .addr .row svg{width:20px;height:20px;flex-shrink:0;color:var(--orange);margin-top:.15rem}
+.where .addr .row b{color:var(--bone);font-family:var(--display);font-weight:700;display:block;font-size:.98rem}
+.where .addr .row span{font-size:.9rem;color:rgba(239,222,212,.72)}
+.where .map{border-radius:6px;overflow:hidden;border:1px solid rgba(250,243,237,.14);min-height:280px;background:var(--ink-2);position:relative}
+.where .map iframe{width:100%;height:100%;min-height:280px;border:0;filter:grayscale(.3) contrast(1.05)}
+
+/* ---------- PROMISE STRIP ---------- */
+.calm{text-align:center;background:var(--paper-2)}
+.calm .wrap{max-width:640px}
+.calm p{font-family:var(--display);font-weight:600;font-size:clamp(1.2rem,2.2vw,1.6rem);color:var(--ink);line-height:1.4}
+.calm .micro{margin-top:1.2rem;font-size:.92rem;color:var(--ink-soft);font-family:var(--font);font-weight:400}
+.calm .wa{margin-top:1.8rem;display:inline-flex;align-items:center;gap:.6rem;font-weight:700;color:var(--orange-deep);border-bottom:2px solid var(--orange);padding-bottom:2px}
+
+footer{background:var(--ink);color:#93A5C0;padding:3rem 0;border-top:1px solid rgba(250,243,237,.12)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between;align-items:flex-start}
+footer img{height:34px}
+footer p{font-size:.8rem;margin-top:1rem;max-width:32ch}
+footer .connect{display:flex;flex-direction:column;gap:.85rem}
+footer .connect .ck{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--orange)}
+footer .connect a{font-size:.95rem;transition:color .2s}
+footer .connect a:hover{color:var(--bone)}
+
+@media(max-width:820px){
+  .prep .steps{grid-template-columns:1fr}
+  .where .wrap{grid-template-columns:1fr}
+  .where .map{min-height:240px}
+}
+@media(prefers-reduced-motion:reduce){[data-reveal]{opacity:1;transform:none;transition:none}.orb svg path,.orb svg circle{animation:none;transition:none}*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- CONFIRM HERO -->
+<section class="confirm">
+  <div class="bar">
+    <img class="logo-mark" src="../assets/Befound-logo-white.png" alt="BeFound">
+  </div>
+  <div class="wrap">
+    <div class="orb" data-reveal>
+      <svg id="orbSvg" viewBox="-160 -160 320 320" aria-hidden="true"></svg>
+      <div class="core">
+        <span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg></span>
+        <span>Booked</span>
+      </div>
+    </div>
+    <div class="cc" data-reveal>
+      <p class="eyebrow">Booking confirmed</p>
+      <h1 id="headline">You're in. Your Skin Read is booked.</h1>
+      <p class="sub">Our team will be in touch shortly to confirm. Here's everything to know before you come in.</p>
+      <div class="cta-row">
+        <a class="btn-ghost" href="#prep">What to expect <span aria-hidden="true">&darr;</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE YOU COME -->
+<section class="prep" id="prep">
+  <div class="wrap">
+    <div class="head" data-reveal>
+      <span class="kick">Before you come in</span>
+      <h2 class="sec-h">Three small things, and you're set.</h2>
+    </div>
+    <div class="steps">
+      <div class="step" data-reveal>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16a1 1 0 011 1v10a1 1 0 01-1 1H9l-4 3v-3H4a1 1 0 01-1-1V6a1 1 0 011-1z"/><path d="M8 10h8M8 13h5"/></svg></div>
+        <b>Keep an eye on your messages</b>
+        <p>Our team will message you to confirm your slot, and check in with you right through to appointment day. Save our number so you don't miss us.</p>
+      </div>
+      <div class="step" data-reveal>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <b>Come fresh-faced</b>
+        <p>Bare skin scans best, so skip the makeup if you can. If you're coming from work, no stress, we'll work with what's there.</p>
+      </div>
+      <div class="step" data-reveal>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></div>
+        <b>Come ready to talk</b>
+        <p>No audit, no checklist. Just an honest conversation about what you've tried, what didn't work, and what's possible next. Snap a few photos of your products if it helps.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STUDIO DETAILS -->
+<section class="where">
+  <div class="wrap">
+    <div data-reveal>
+      <span class="kick">Where to find us</span>
+      <h2>See you at the studio.</h2>
+      <div class="addr">
+        <div class="row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.3-7-11a7 7 0 0114 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <div><b>BeFound Studios</b><span>137 Amoy Street, #02-01 Far East Square, Singapore 049965</span></div>
+        </div>
+        <div class="row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="16" rx="3"/><path d="M9 19l-2 2M15 19l2 2M9 8h6"/></svg>
+          <div><b>Nearest MRT</b><span>Telok Ayer, a short walk away. Parking is available around Far East Square.</span></div>
+        </div>
+        <div class="row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <div><b>Give yourself 45 minutes</b><span>One-on-one, unhurried. Come a couple of minutes early to settle in.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="map" data-reveal>
+      <iframe title="BeFound Studios location" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=BeFound+Studios,+137+Amoy+Street,+Singapore+049965&ll=1.2833573,103.8484733&z=17&output=embed"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- PROMISE STRIP -->
+<section class="calm">
+  <div class="wrap" data-reveal>
+    <p>Come as you are. No brand products will be pushed to you in the room. You'll leave with your Findings and a clear head, either way.</p>
+    <p class="micro">Need to reschedule or have a question before your visit?</p>
+    <a class="wa" href="https://api.whatsapp.com/send/?phone=6591055075&amp;text&amp;type=phone_number&amp;app_absent=0" target="_blank" rel="noopener">Message us on WhatsApp <span aria-hidden="true">&rarr;</span></a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <img src="../assets/Befound-logo-white.png" alt="BeFound">
+      <p>BeFound Studios &middot; Singapore. The Skin Barrier Specialists.</p>
+    </div>
+    <div class="connect">
+      <span class="ck">Connect</span>
+      <a href="https://www.instagram.com/befoundstudios/" target="_blank" rel="noopener">@befoundstudios</a>
+      <a href="https://api.whatsapp.com/send/?phone=6591055075&amp;text&amp;type=phone_number&amp;app_absent=0" target="_blank" rel="noopener">WhatsApp Us</a>
+      <a href="mailto:hello@befoundstudios.com">hello@befoundstudios.com</a>
+      <a href="../skin-read/">The Skin Read</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // if Acuity redirected the iframe here, break out to the full window
+  try{ if(window.top!==window.self){ window.top.location.href=window.location.href; return; } }catch(e){ /* cross-origin: leave as-is */ }
+
+  var qs=new URLSearchParams(location.search);
+  var noMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // personalise if a name is passed through
+  var name=(qs.get('name')||qs.get('firstName')||'').trim();
+  if(name){
+    var who=name.charAt(0).toUpperCase()+name.slice(1);
+    document.getElementById('headline').textContent="You're in, "+who+". Your Skin Read is booked.";
+  }
+
+  // fully-lit filament orb (barrier read, all set) in green
+  (function(){
+    var svg=document.getElementById('orbSvg'),NS='http://www.w3.org/2000/svg';
+    var N=150,R0=54,R1=118;
+    for(var i=0;i<N;i++){
+      var t=i/(N-1);
+      var rnd=Math.sin((i+1)*12.9898)*43758.5453;rnd-=Math.floor(rnd);
+      var a=(90-t*360)*Math.PI/180;
+      var r1=R1+rnd*28;
+      var sw=(12+rnd*14)*Math.PI/180;
+      var x0=Math.cos(a)*R0,y0=-Math.sin(a)*R0;
+      var xc=Math.cos(a+sw*.6)*(r1*.62),yc=-Math.sin(a+sw*.6)*(r1*.62);
+      var x1=Math.cos(a+sw)*r1,y1=-Math.sin(a+sw)*r1;
+      var d='M'+x0.toFixed(1)+' '+y0.toFixed(1)+' Q'+xc.toFixed(1)+' '+yc.toFixed(1)+' '+x1.toFixed(1)+' '+y1.toFixed(1);
+      var p=document.createElementNS(NS,'path');p.setAttribute('d',d);
+      var c=document.createElementNS(NS,'circle');c.setAttribute('cx',x1.toFixed(1));c.setAttribute('cy',y1.toFixed(1));c.setAttribute('r','1.7');
+      if(!noMotion){p.style.setProperty('--wd',(-t*3)+'s');c.style.setProperty('--wd',(-t*3)+'s');}
+      svg.appendChild(p);svg.appendChild(c);
+    }
+    requestAnimationFrame(function(){requestAnimationFrame(function(){svg.classList.add('on')})});
+  })();
+
+  // reveals
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('[data-reveal]').forEach(function(el){io.observe(el)});
+
+  // ---- Meta conversion: fire the booking event here (this is the confirmed-booking page) ----
+  // if(window.fbq){ fbq('track','Schedule',{content_name:'skin-read'}); }
+})();
+</script>
+</body>
+</html>

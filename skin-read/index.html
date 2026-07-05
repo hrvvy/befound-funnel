@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Skin Read — BeFound</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#142B49;--ink-2:#0C1B30;--ink-soft:#3E4E66;--muted:#69758A;
+  --paper:#EFDED4;--paper-2:#E6CDBD;--bone:#FAF3ED;
+  --orange:#CB6D51;--orange-deep:#A04528;
+  --green:#6E9C7C;--amber:#C89A4E;
+  --line:rgba(20,43,73,.22);--line-soft:rgba(20,43,73,.1);
+  --display:"Montserrat",system-ui,sans-serif;
+  --font:"Inter",system-ui,sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --maxw:1180px;
+}
+*,*::before,*::after{box-sizing:border-box}*{margin:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:var(--paper);color:var(--ink-soft);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:var(--display);color:var(--ink);font-weight:800;line-height:1.08;letter-spacing:-.02em}
+.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(1.25rem,5vw,2.5rem)}
+section{padding:clamp(4rem,7vw,6.5rem) 0}
+.grain{position:fixed;inset:0;z-index:200;pointer-events:none;opacity:.03;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.btn{display:inline-flex;align-items:center;gap:.7rem;font-family:var(--font);font-weight:700;font-size:.98rem;color:#fff;background:var(--orange);border:none;cursor:pointer;padding:1.05rem 1.8rem;border-radius:3px;transition:background .2s var(--ease),transform .18s var(--ease)}
+.btn:hover{background:var(--orange-deep);transform:translateY(-1px)}
+.btn:active{transform:translateY(0) scale(.99)}
+.btn .arw{transition:transform .22s var(--ease)}.btn:hover .arw{transform:translateX(4px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:.6rem;background:transparent;border:1px solid rgba(250,246,239,.55);color:var(--bone);font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.95rem 1.6rem;border-radius:3px;transition:background .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease)}
+.btn-ghost:hover{background:var(--orange);border-color:var(--orange);color:#fff}
+.sec-h{font-size:clamp(1.9rem,4vw,2.9rem);text-wrap:balance}
+.lead{font-size:clamp(1.02rem,1.4vw,1.2rem);color:var(--ink-soft)}
+.kick{font-size:.74rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--orange-deep);margin-bottom:.9rem;display:block}
+[data-reveal]{opacity:0;transform:translateY(16px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+[data-reveal].in{opacity:1;transform:none}
+
+/* top bar */
+.bar{display:flex;align-items:center;justify-content:space-between;padding:1rem clamp(1.25rem,4vw,2.5rem);position:absolute;top:0;left:0;right:0;z-index:5}
+.bar .logo-mark{height:44px;width:auto}
+.bar .bar-cta{font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--bone);border:1px solid rgba(250,246,239,.55);padding:.7rem 1.3rem;border-radius:3px;transition:background .2s,border-color .2s}
+.bar .bar-cta:hover{background:var(--orange);border-color:var(--orange)}
+
+/* ---------- HERO (dark, filament orb) ---------- */
+.hero{position:relative;background:var(--ink-2);color:var(--paper);overflow:hidden;padding:0}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 55% at 78% 22%,rgba(203,109,81,.16),transparent 62%),radial-gradient(60% 60% at 15% 88%,rgba(46,77,120,.28),transparent 65%)}
+.hero .wrap{max-width:min(1480px,94vw)}
+.hero-main{position:relative;display:flex;align-items:center;padding:clamp(6.5rem,15vh,10rem) 0 clamp(2.5rem,5vh,4rem)}
+.hero-main .wrap{width:100%;position:relative;display:grid;grid-template-columns:1fr auto;gap:clamp(2rem,5vw,5.5rem);align-items:center}
+.hero .eyebrow{font-size:.76rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:1.1rem}
+.hero h1{color:var(--bone);font-size:clamp(2.1rem,4.6vw,3.6rem);margin-bottom:1.2rem;max-width:19ch}
+.hero .sub{color:rgba(239,222,212,.82);max-width:54ch;margin-bottom:1.8rem;font-size:clamp(1rem,1.25vw,1.15rem)}
+.hero .cta-row{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.hero .btn{padding:1.1rem 1.8rem}
+.hero .btn-ghost{padding:1.05rem 1.5rem}
+.hero-stats{position:relative;padding-bottom:clamp(2.5rem,5vw,4rem)}
+.hero .stats{margin:0;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(250,243,237,.3);border-bottom:1px solid rgba(250,243,237,.14)}
+.hero .stats div{padding:1.4rem clamp(.7rem,1.8vw,1.8rem);border-left:1px solid rgba(250,243,237,.14)}
+.hero .stats div:first-child{border-left:0;padding-left:0}
+.hero .stats b{font-family:var(--display);font-weight:800;font-size:clamp(1.2rem,2vw,1.6rem);color:var(--bone);display:block;line-height:1.05}
+.hero .stats span{display:block;margin-top:.4rem;font-size:.82rem;line-height:1.45;color:rgba(239,222,212,.6)}
+.orb{position:relative;width:clamp(320px,min(42vw,52vh),560px);margin-inline:auto}
+.orb svg{width:100%;height:auto;display:block;overflow:visible}
+.orb svg path{fill:none;stroke:rgba(250,243,237,.13);stroke-width:1.1}
+.orb svg circle{fill:rgba(250,243,237,.18)}
+.orb .lit{color:var(--orange);filter:drop-shadow(0 0 6px currentColor)}
+.orb .lit path{stroke:currentColor;opacity:0;transition:opacity .55s var(--ease)}
+.orb .lit circle{fill:currentColor;opacity:0;transition:opacity .55s var(--ease)}
+.orb svg.on .lit path,.orb svg.on .lit circle{opacity:.92}
+.orb svg.wave .lit path,.orb svg.wave .lit circle{animation:orbwave 3s ease-in-out infinite;animation-delay:var(--wd,0s)}
+@keyframes orbwave{0%,100%{opacity:.35}50%{opacity:1}}
+.orb .core{position:absolute;left:50%;top:50%;transform:translate(-50%,-52%);text-align:center}
+.orb .core b{font-family:var(--display);font-weight:800;font-size:clamp(1rem,1.6vw,1.15rem);letter-spacing:.18em;text-transform:uppercase;color:var(--bone);display:block;line-height:1.5}
+.orb .core span{font-size:.66rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(250,243,237,.55)}
+.orb .core .num{font-family:var(--display);font-weight:800;font-size:clamp(2.6rem,5vw,3.6rem);color:var(--bone);display:block;line-height:1}
+
+/* ---------- IS / ISN'T ---------- */
+.isnt .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.4rem,3vw,2.5rem);margin-top:clamp(2rem,4vw,3rem)}
+.isnt .panel{border-radius:4px;padding:clamp(1.6rem,3vw,2.4rem)}
+.isnt .panel.no{background:var(--paper-2)}
+.isnt .panel.yes{background:var(--ink);color:var(--paper)}
+.isnt .panel h3{font-size:1.05rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.4rem}
+.isnt .panel.yes h3{color:var(--bone)}
+.isnt .row{padding:1rem 0;border-top:1px solid var(--line-soft)}
+.isnt .panel.yes .row{border-top:1px solid rgba(250,243,237,.14)}
+.isnt .row b{font-family:var(--display);font-weight:700;color:var(--ink);display:block;margin-bottom:.2rem}
+.isnt .panel.yes .row b{color:var(--bone)}
+.isnt .row p{font-size:.92rem;color:var(--ink-soft)}
+.isnt .panel.yes .row p{color:rgba(239,222,212,.75)}
+
+/* ---------- THE 45 MINUTES ---------- */
+.minutes{background:var(--bone)}
+.minutes .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2vw,1.5rem);margin-top:clamp(2rem,4vw,3rem)}
+.minutes .step{background:#fff;border:1px solid var(--line-soft);border-radius:4px;padding:1.7rem 1.5rem;position:relative}
+.minutes .step .t{font-family:var(--display);font-weight:800;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--orange-deep);display:block;margin-bottom:.7rem}
+.minutes .step b{font-family:var(--display);font-weight:700;color:var(--ink);display:block;margin-bottom:.4rem;font-size:1.08rem}
+.minutes .step p{font-size:.95rem;color:var(--ink-soft)}
+.minutes .close{margin-top:1.9rem;font-family:var(--display);font-weight:600;font-size:clamp(1.1rem,1.9vw,1.4rem);color:var(--ink);max-width:38ch}
+
+/* ---------- THE SCAN (dark readout) ---------- */
+.scan{background:var(--ink-2);color:var(--paper);position:relative;overflow:hidden}
+.scan::before{content:"";position:absolute;inset:0;background:radial-gradient(55% 50% at 85% 15%,rgba(203,109,81,.13),transparent 60%)}
+.scan .wrap{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2rem,5vw,4rem);align-items:center}
+.scan .kick{color:var(--orange)}
+.scan .sec-h{color:var(--bone)}
+.scan p{color:rgba(239,222,212,.78);margin-top:1rem;max-width:48ch}
+.scan p strong{color:var(--bone)}
+.readout{background:rgba(250,243,237,.05);border:1px solid rgba(250,243,237,.12);border-radius:8px;padding:clamp(1.6rem,3vw,2.2rem);position:relative;overflow:hidden}
+.readout::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(250,243,237,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(250,243,237,.05) 1px,transparent 1px);background-size:26px 26px;pointer-events:none}
+.readout .rhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.6rem}
+.readout .rhead span{font-size:.66rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(250,243,237,.55)}
+.readout .dotlive{width:8px;height:8px;border-radius:50%;background:var(--orange);animation:blink 1.6s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.readout .rrow{margin-bottom:1.15rem}
+.readout .rrow:last-child{margin-bottom:0}
+.readout .rlab{display:flex;justify-content:space-between;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(250,243,237,.7);margin-bottom:.45rem}
+.readout .rbar{height:7px;border-radius:4px;background:rgba(250,243,237,.12);overflow:hidden}
+.readout .rbar i{display:block;height:100%;border-radius:4px;background:var(--orange);width:var(--v);transform:scaleX(0);transform-origin:left;transition:transform 1.4s var(--ease)}
+.readout.on .rbar i{transform:scaleX(1)}
+.readout .rnote{margin-top:1.4rem;font-size:.7rem;color:rgba(250,243,237,.4)}
+@media(prefers-reduced-motion:reduce){.readout .rbar i{transition:none;width:var(--v)}.readout .dotlive{animation:none}}
+
+/* ---------- FINDINGS ---------- */
+.findings .wrap{display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(2rem,5vw,4rem);align-items:center}
+.fdoc{background:var(--bone);border-radius:6px;box-shadow:0 34px 70px -40px rgba(20,43,73,.5);padding:clamp(1.8rem,3vw,2.4rem);transform:rotate(-1.6deg);position:relative;max-width:430px;justify-self:start;align-self:start}
+.fdoc .ftab{position:absolute;top:-14px;left:1.6rem;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--ink);padding:.4rem .7rem;border-radius:2px}
+.fdoc .fhead{font-family:var(--display);font-weight:800;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);border-bottom:2px solid var(--ink);padding-bottom:.8rem;margin-bottom:1.2rem;display:flex;justify-content:space-between;align-items:center}
+.fdoc .fhead span{font-weight:600;letter-spacing:.05em;color:var(--muted);text-transform:none;font-family:var(--font);font-size:.72rem}
+.fdoc .fscore{display:flex;align-items:center;gap:1.1rem;margin-bottom:1.3rem}
+.fdoc .fscore b{font-family:var(--display);font-weight:800;font-size:3rem;color:var(--ink);line-height:1}
+.fdoc .fscore .fphase{font-family:var(--display);font-weight:800;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--amber);padding:.4rem .8rem;border-radius:3px}
+.fdoc .fsec{padding:.9rem 0;border-top:1px solid var(--line-soft)}
+.fdoc .fsec .fl{font-size:.64rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--orange-deep);display:block;margin-bottom:.4rem}
+.fdoc .fsec p{font-size:.85rem;color:var(--ink-soft);line-height:1.5}
+.findings .close{margin-top:1.6rem;font-family:var(--display);font-weight:600;font-size:clamp(1.1rem,1.9vw,1.4rem);color:var(--ink);max-width:30ch}
+
+/* ---------- WATCH ONE (Daphne) ---------- */
+.watch{background:var(--bone)}
+.watch .studio{display:grid;grid-template-columns:1fr minmax(260px,360px);gap:clamp(1.8rem,4vw,3.5rem);align-items:center}
+.watch .studio-vid{grid-column:2;grid-row:1}
+.watch .studio-copy{grid-column:1;grid-row:1}
+.studio-vid{position:relative;border-radius:4px;overflow:hidden;box-shadow:0 24px 54px -34px rgba(20,43,73,.4);background:var(--ink-2)}
+.studio-vid video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover}
+.studio-vid .tab{position:absolute;top:1rem;left:1rem;z-index:1;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);background:var(--bone);padding:.35rem .65rem;border-radius:2px;pointer-events:none}
+.studio-copy h3{font-family:var(--display);font-weight:700;font-size:clamp(1.4rem,2.6vw,2rem);color:var(--ink);line-height:1.2;max-width:22ch}
+.studio-copy>p{margin-top:.9rem;color:var(--ink-soft);max-width:44ch}
+.studio-copy .close{margin-top:2rem;padding-top:1.6rem;border-top:1px solid var(--line-soft);max-width:34ch;font-family:var(--display);font-weight:600;font-size:clamp(1.1rem,1.9vw,1.4rem);color:var(--ink)}
+
+/* ---------- WHO READS ---------- */
+.who .wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(2rem,5vw,4rem);align-items:center}
+.who .pic{position:relative;border-radius:4px;overflow:hidden;box-shadow:0 24px 54px -34px rgba(20,43,73,.4)}
+.who .pic img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.who .pic .tab{position:absolute;top:1rem;left:1rem;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);background:var(--bone);padding:.35rem .65rem;border-radius:2px}
+.who p{margin-top:1rem;max-width:52ch}
+.who .creds{display:flex;gap:2rem;flex-wrap:wrap;margin-top:1.8rem}
+.who .creds div b{font-family:var(--display);font-weight:800;font-size:1.4rem;color:var(--ink);display:block;line-height:1.1}
+.who .creds div span{font-size:.78rem;color:var(--muted)}
+
+/* ---------- PROOF ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ink);border-bottom:1px solid var(--line);margin-bottom:clamp(2.5rem,5vw,3.5rem)}
+.stats div{padding:1.2rem clamp(.6rem,1.6vw,1.4rem);border-left:1px solid var(--line-soft)}
+.stats div:first-child{border-left:0;padding-left:0}
+.stats b{font-family:var(--display);font-weight:800;font-size:clamp(1.15rem,2vw,1.6rem);color:var(--ink);display:block;line-height:1.05}
+.stats span{display:block;margin-top:.4rem;font-size:.78rem;line-height:1.45;color:var(--muted)}
+.proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1rem,2vw,1.75rem)}
+.tcase{position:relative;overflow:hidden;border-radius:4px;box-shadow:0 24px 54px -34px rgba(20,43,73,.4);aspect-ratio:4/5}
+.tcase .fillimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tcase .ov{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:1.4rem;background:linear-gradient(transparent 55%,rgba(12,27,48,.82));color:var(--bone);pointer-events:none}
+.tcase blockquote{font-family:var(--display);font-style:italic;font-weight:500;font-size:.98rem;line-height:1.4;margin:0 0 .5rem}
+.tcase .who-lab{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(250,246,239,.7)}
+.slider{--pos:94%}
+.slider .ba-top{position:absolute;inset:0;overflow:hidden;clip-path:inset(0 0 0 var(--pos))}
+.slider .ba-top img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.t-lar .ba-top img{transform:scale(1.12) translate(-3%,1%)}
+.t-cher .ba-top img{transform:scale(1.14) translate(-2%,1.5%)}
+.t-bry .ba-top img{transform:scale(1.24) translate(-1.5%,-2%)}
+.ba-lab{position:absolute;top:.9rem;z-index:3;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(12,27,48,.55);padding:.3rem .6rem;border-radius:3px;pointer-events:none}
+.ba-lab.la{left:.9rem}.ba-lab.lb{right:.9rem}
+.ba-line{position:absolute;top:0;bottom:0;left:var(--pos);width:2px;margin-left:-1px;background:rgba(255,255,255,.95);box-shadow:0 0 10px rgba(12,27,48,.4);z-index:3;pointer-events:none}
+.ba-knob{position:absolute;top:50%;left:var(--pos);transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:var(--bone);color:var(--ink);display:flex;align-items:center;justify-content:center;gap:3px;font-size:.55rem;z-index:3;pointer-events:none;box-shadow:0 6px 18px -6px rgba(12,27,48,.55)}
+.ba-range{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0;z-index:4;-webkit-appearance:none;appearance:none;background:transparent}
+
+/* ---------- GOOGLE REVIEWS ---------- */
+.reviews{background-image:radial-gradient(rgba(20,43,73,.07) 1px,transparent 1px);background-size:22px 22px}
+.rev-kicker{text-align:center;font-size:.74rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--orange-deep);margin-bottom:.9rem}
+.rev-h{text-align:center;margin-inline:auto;max-width:24ch}
+.stars{color:#FABB05;letter-spacing:.12em;font-size:.95rem}
+.rev-summary{margin:clamp(2rem,4vw,3rem) auto 0;max-width:540px;background:#fff;border-radius:10px;box-shadow:0 18px 44px -30px rgba(20,43,73,.35);padding:1.8rem 2rem;display:flex;gap:1.8rem;align-items:center}
+.rs-score{text-align:center;padding-right:1.8rem;border-right:1px solid var(--line-soft);display:grid;gap:.2rem}
+.rs-score b{font-family:var(--display);font-weight:800;font-size:2.9rem;color:var(--ink);line-height:1}
+.rs-score .stars{font-size:1.05rem}
+.rs-count{font-size:.82rem;color:var(--muted)}
+.rs-brand{display:flex;align-items:center;gap:.55rem;margin-bottom:.3rem}
+.rs-brand svg{width:22px;height:22px}
+.rs-brand b{font-family:var(--display);font-weight:700;color:var(--ink);font-size:1.02rem}
+.rs-meta>p{font-size:.85rem;color:var(--muted);margin-bottom:.7rem}
+.rs-bars div{display:flex;align-items:center;gap:.55rem;margin-bottom:.3rem}
+.rs-bars span{font-size:.72rem;color:var(--muted);width:.7ch}
+.rs-bars i{display:block;height:6px;border-radius:3px;background:var(--line-soft);flex:1;position:relative;overflow:hidden}
+.rs-bars i::after{content:"";position:absolute;inset:0;width:var(--w);background:#FABB05;border-radius:3px}
+.rev-grid{margin-top:clamp(2.2rem,4vw,3rem);columns:3;column-gap:1.4rem}
+.rev-card{break-inside:avoid;background:#fff;border-radius:10px;box-shadow:0 14px 34px -26px rgba(20,43,73,.35);padding:1.5rem 1.5rem 1.4rem;margin-bottom:1.4rem}
+.rev-card header{display:flex;align-items:center;gap:.8rem}
+.rev-card .av{width:42px;height:42px;border-radius:50%;color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:1.05rem;flex-shrink:0}
+.rev-card .rid{flex:1;min-width:0}
+.rev-card .rid b{display:block;color:var(--ink);font-weight:700;font-size:.95rem}
+.rev-card .rid span{font-size:.78rem;color:var(--muted)}
+.rev-card .rid em{font-style:normal;color:#4285F4;font-weight:600}
+.rev-card .gdot{width:18px;height:18px;flex-shrink:0;background:conic-gradient(#EA4335 0 25%,#FBBC05 25% 50%,#34A853 50% 75%,#4285F4 75% 100%);border-radius:50%;position:relative}
+.rev-card .gdot::after{content:"";position:absolute;inset:4px;background:#fff;border-radius:50%}
+.rev-card .rmeta{display:flex;align-items:center;gap:.7rem;margin:.85rem 0 .6rem}
+.rev-card .ago{font-size:.78rem;color:var(--muted)}
+.rev-card p{font-size:.92rem;color:var(--ink-soft);margin-bottom:.6rem}
+.rev-card p:last-child{margin-bottom:0}
+.rev-card ul{margin:0 0 .6rem;padding-left:1.1rem}
+.rev-card li{font-size:.92rem;color:var(--ink-soft);margin-bottom:.35rem}
+
+/* ---------- CLIENT STORY PODS ---------- */
+.stories{position:relative;background:var(--ink-2);overflow:hidden}
+.stories::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 80% 10%,rgba(203,109,81,.14),transparent 62%),radial-gradient(55% 55% at 12% 90%,rgba(46,77,120,.25),transparent 65%)}
+.stories .wrap{position:relative}
+.st-kicker{font-size:.74rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:.9rem}
+.stories .sec-h{color:var(--bone)}
+.st-lead{margin-top:1rem;max-width:48ch;color:rgba(239,222,212,.75)}
+.st-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.2rem,2.5vw,2rem);margin-top:clamp(2.2rem,4vw,3.2rem)}
+.st-card{background:rgba(239,222,212,.06);border:1px solid rgba(239,222,212,.1);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.st-card video{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;background:#091423}
+.st-info{padding:1.25rem 1.35rem 1.45rem}
+.st-info b{font-family:var(--display);font-weight:700;font-size:1.12rem;color:var(--bone);display:block;margin-bottom:.45rem}
+.st-tags{display:block;font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(239,222,212,.55);margin-bottom:.95rem}
+.st-pill{display:inline-flex;align-items:center;gap:.5rem;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);background:rgba(203,109,81,.12);border:1px solid rgba(203,109,81,.4);padding:.45rem .85rem;border-radius:999px}
+.st-pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--orange);flex-shrink:0}
+.st-dots{display:none}
+
+/* ---------- PROMISE ---------- */
+.promise{background:var(--ink-2);color:var(--paper);position:relative;overflow:hidden}
+.promise::before{content:"";position:absolute;inset:0;background:radial-gradient(55% 50% at 20% 15%,rgba(203,109,81,.12),transparent 60%)}
+.promise .wrap{position:relative;text-align:center}
+.promise .kick{color:var(--orange)}
+.promise .sec-h{color:var(--bone);max-width:22ch;margin-inline:auto}
+.promise .vows{max-width:720px;margin:clamp(2rem,4vw,3rem) auto 0;text-align:center}
+.promise .vow{display:flex;flex-direction:column;align-items:center;gap:.7rem;padding:1.4rem 0;border-top:1px solid rgba(250,243,237,.14)}
+.promise .vow:last-of-type{border-bottom:1px solid rgba(250,243,237,.14)}
+.promise .vow .n{flex-shrink:0;width:9px;height:9px;border-radius:50%;background:var(--orange)}
+.promise .vow p{color:rgba(239,222,212,.85);max-width:52ch;margin-inline:auto}
+.promise .vow p strong{color:var(--bone)}
+.promise .micro-line{margin-top:1.8rem;font-family:var(--display);font-style:italic;font-weight:600;color:var(--orange);font-size:1.05rem}
+
+/* ---------- FAQ ---------- */
+.faq{background:var(--bone)}
+.faq .wrap{text-align:center}
+.faq .list{margin:clamp(1.8rem,3.5vw,2.6rem) auto 0;max-width:820px;text-align:left}
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.25rem 0;font-family:var(--display);font-weight:700;color:var(--ink);font-size:1.02rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-weight:600;color:var(--orange-deep);font-size:1.3rem;line-height:1;transition:transform .25s var(--ease)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .a{padding:0 0 1.3rem;color:var(--ink-soft);max-width:62ch}
+.faq .a a{color:var(--orange-deep);font-weight:600;border-bottom:1px solid var(--orange)}
+
+/* ---------- BOOK ---------- */
+.trust{padding:clamp(2.2rem,4vw,3.2rem) 0 clamp(1rem,2vw,1.6rem)}
+.trust .stats{margin-bottom:0}
+.book{background:var(--ink);color:var(--paper)}
+.book .sec-h{color:var(--bone)}
+.book .lead{color:rgba(239,222,212,.75);max-width:52ch}
+.book .embed{margin-top:2.2rem;background:var(--bone);border-radius:4px;overflow:hidden}
+.book .embed iframe{display:block;width:100%;height:min(820px,88vh);border:0}
+.book .micro{margin-top:1rem;font-size:.85rem;color:rgba(239,222,212,.6);text-align:center}
+
+footer{background:var(--ink);color:#93A5C0;padding:3rem 0;border-top:1px solid rgba(250,243,237,.12)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between;align-items:flex-start}
+footer img{height:34px}
+footer p{font-size:.8rem;margin-top:1rem;max-width:32ch}
+footer .connect{display:flex;flex-direction:column;gap:.85rem}
+footer .connect .ck{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--orange)}
+footer .connect a{font-size:.95rem;transition:color .2s}
+footer .connect a:hover{color:var(--bone)}
+
+/* sticky mobile book bar */
+.stickybar{position:fixed;left:0;right:0;bottom:0;z-index:90;background:rgba(12,27,48,.92);backdrop-filter:blur(8px);padding:.8rem 1.25rem calc(.8rem + env(safe-area-inset-bottom));display:none;transform:translateY(110%);transition:transform .35s var(--ease)}
+.stickybar.show{transform:none}
+.stickybar a{display:flex;justify-content:center;align-items:center;gap:.6rem;background:var(--orange);color:#fff;font-weight:700;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;padding:.95rem;border-radius:3px}
+
+@media(max-width:1080px){.rev-grid{columns:2}}
+@media(max-width:900px){
+  .hero{min-height:0}
+  .hero-main .wrap{grid-template-columns:1fr}
+  .hero-main{padding-top:clamp(4rem,14vw,5rem)}
+  .orb{grid-row:1;margin-bottom:.5rem;width:min(320px,78vw)}
+  .hero .stats{grid-template-columns:1fr 1fr}
+  .hero .stats div:nth-child(odd){border-left:0;padding-left:0}
+  .hero .stats div{padding-block:.9rem}
+  .scan .wrap,.findings .wrap,.who .wrap{grid-template-columns:1fr}
+  .minutes .steps{grid-template-columns:1fr}
+  .isnt .grid{grid-template-columns:1fr}
+  .watch .studio{grid-template-columns:1fr}
+  .watch .studio-vid,.watch .studio-copy{grid-column:auto;grid-row:auto}
+  .studio-vid{max-width:min(360px,100%);justify-self:center}
+  .fdoc{transform:rotate(-1deg);margin-inline:auto}
+  .who .pic{margin-inline:auto}
+  .stats{grid-template-columns:1fr 1fr}
+  .stats div:nth-child(odd){border-left:0;padding-left:0}
+  .stats div{padding-block:.9rem}
+  .proof-grid{grid-template-columns:1fr}
+  .who .pic{max-width:440px}
+  .st-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:min(300px,80vw);gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none}
+  .st-grid::-webkit-scrollbar{display:none}
+  .st-card{scroll-snap-align:start}
+  .st-dots{display:flex;justify-content:center;gap:.55rem;margin-top:1.4rem}
+  .st-dots button{width:8px;height:8px;border-radius:50%;border:0;padding:0;background:rgba(239,222,212,.28);cursor:pointer;transition:background .25s var(--ease),transform .25s var(--ease)}
+  .st-dots button.act{background:var(--orange);transform:scale(1.3)}
+}
+@media(max-width:700px){
+  .hero .cta-row>a{width:100%;justify-content:center}
+  .rev-grid{columns:1}
+  .rev-summary{flex-direction:column;text-align:center;gap:1.2rem}
+  .rs-score{padding-right:0;border-right:0;padding-bottom:1.2rem;border-bottom:1px solid var(--line-soft)}
+  .rs-brand{justify-content:center}
+  .stickybar{display:block}
+  .bar .bar-cta{display:none}
+}
+@media(prefers-reduced-motion:reduce){[data-reveal]{opacity:1;transform:none;transition:none}.orb .lit path,.orb .lit circle{transition:none}*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="bar">
+    <img class="logo-mark" src="../assets/Befound-logo-white.png" alt="BeFound">
+    <a class="bar-cta" href="#book">Book my Skin Read</a>
+  </div>
+  <div class="hero-main">
+    <div class="wrap">
+      <div data-reveal>
+        <p class="eyebrow">The Skin Read</p>
+        <h1 id="heroH">The 45 minutes that ends the guessing.</h1>
+        <p class="sub" id="heroSub">One-on-one with a skin barrier specialist. Your skin scanned at machine level, explained in plain English, and mapped to a path. You leave knowing exactly what your skin needs.</p>
+        <div class="cta-row">
+          <a href="#book" class="btn">Book my Skin Read <span class="arw">&rarr;</span></a>
+          <a href="#minutes" class="btn-ghost">See what happens first</a>
+        </div>
+      </div>
+      <div class="orb" data-reveal>
+        <svg id="orbSvg" viewBox="-192 -192 384 384" aria-hidden="true"></svg>
+        <div class="core" id="orbCore"><b>Your skin,<br>read.</b></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap hero-stats" data-reveal>
+    <div class="stats">
+      <div><b>2,000+</b><span>barriers were read, and ladies joined BeFound</span></div>
+      <div><b>10+ years</b><span>reading different unique skin profiles</span></div>
+      <div><b>8 in 10</b><span>clients move up a phase within 12 weeks</span></div>
+      <div><b>1 of 1</b><span>personalised to your skin, season by season</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- IS / ISN'T -->
+<section class="isnt">
+  <div class="wrap">
+    <span class="kick" data-reveal>First, what it's not</span>
+    <h2 class="sec-h" data-reveal style="max-width:24ch">Not a facial. Not a treatment. Not a pitch.</h2>
+    <div class="grid">
+      <div class="panel no" data-reveal>
+        <h3>A Skin Read is not</h3>
+        <div class="row"><b>A facial</b><p>No extractions, no steam, no products layered on. Your skin is read, not worked on.</p></div>
+        <div class="row"><b>A treatment</b><p>Nothing is applied to your skin. The whole session is about understanding it.</p></div>
+        <div class="row"><b>A sales appointment</b><p>Nothing is prescribed in the room. You take your Findings home and decide there.</p></div>
+      </div>
+      <div class="panel yes" data-reveal>
+        <h3>A Skin Read is</h3>
+        <div class="row"><b>A measurement</b><p>Your barrier scanned and scored at machine level, not guessed at in a mirror.</p></div>
+        <div class="row"><b>A conversation</b><p>Your skin history, what you've tried, what's helped, and what's been quietly working against you.</p></div>
+        <div class="row"><b>A map</b><p>Where your skin can realistically go from here, and the path to get it there.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE 45 MINUTES -->
+<section class="minutes" id="minutes">
+  <div class="wrap">
+    <span class="kick" data-reveal>Minute by minute</span>
+    <h2 class="sec-h" data-reveal style="max-width:22ch">Here's exactly how the 45 minutes go.</h2>
+    <div class="steps">
+      <div class="step" data-reveal><span class="t">Minutes 0 to 10 &middot; The scan</span><b>Your barrier, read at machine level</b><p>The BeFound Skin Scan reads your skin at a level your eyes and a mirror can't. Hydration, texture, tone, where your barrier is strong and where it's struggling.</p></div>
+      <div class="step" data-reveal><span class="t">Minutes 10 to 30 &middot; Your Findings</span><b>Walked through together</b><p>We go through what the scan found, alongside your skin history. What you've tried, what's helped, and what's been quietly working against you.</p></div>
+      <div class="step" data-reveal><span class="t">Minutes 30 to 45 &middot; What's possible</span><b>Your path, mapped</b><p>We map out where your skin could go from here and the path to get it there. Clear, honest, specific to your skin.</p></div>
+    </div>
+    <p class="close" data-reveal>You leave knowing more about your skin than you ever have.</p>
+  </div>
+</section>
+
+<!-- THE SCAN -->
+<section class="scan">
+  <div class="wrap">
+    <div data-reveal>
+      <span class="kick">The BeFound Skin Scan</span>
+      <h2 class="sec-h">What the mirror can't show you.</h2>
+      <p>You've been reading your skin by eye for years. So has every salesperson who recommended you something. That's the problem: <strong>by the time your eyes see it, your barrier has been struggling for weeks.</strong></p>
+      <p>The scan reads what's happening underneath. Hydration levels. Texture. Tone. Which zones of your barrier are holding, and which are quietly failing. It turns "my skin is acting up" into something you can actually see, point at, and fix.</p>
+    </div>
+    <div class="readout" id="readout" data-reveal>
+      <div class="rhead"><span>Barrier readout</span><span class="dotlive" aria-hidden="true"></span></div>
+      <div class="rrow"><div class="rlab"><span>Hydration</span><span>47%</span></div><div class="rbar"><i style="--v:47%"></i></div></div>
+      <div class="rrow"><div class="rlab"><span>Texture</span><span>63%</span></div><div class="rbar"><i style="--v:63%"></i></div></div>
+      <div class="rrow"><div class="rlab"><span>Tone</span><span>58%</span></div><div class="rbar"><i style="--v:58%"></i></div></div>
+      <div class="rrow"><div class="rlab"><span>Barrier strength</span><span>34</span></div><div class="rbar"><i style="--v:34%"></i></div></div>
+      <p class="rnote">Illustrative readout. Yours is measured in the studio.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FINDINGS -->
+<section class="findings">
+  <div class="wrap">
+    <figure class="fdoc" data-reveal>
+      <span class="ftab">You take this home</span>
+      <div class="fhead">Your Findings <span>BeFound Studios</span></div>
+      <div class="fscore"><b>34</b><span class="fphase" style="background:var(--orange)">Protect</span></div>
+      <div class="fsec"><span class="fl">What's weakening it</span><p>Over-cleansing morning and night. An exfoliating acid used four times a week on an already thin barrier.</p></div>
+      <div class="fsec"><span class="fl">What's working</span><p>Your moisturiser is right for you. Keep it.</p></div>
+      <div class="fsec"><span class="fl">The path</span><p>Rebuild first, then strengthen. Realistic timeline to calm, clear skin: 12 weeks.</p></div>
+    </figure>
+    <div data-reveal>
+      <span class="kick">Your Findings</span>
+      <h2 class="sec-h" style="max-width:20ch">You leave with answers, either way.</h2>
+      <p class="lead" style="margin-top:1rem;max-width:48ch">Everything the scan and the conversation uncover goes into your Findings. What your barrier scored. What's weakening it. What's already working. And the realistic path from here.</p>
+      <p style="margin-top:.9rem;max-width:48ch">It's yours to keep whether you ever come back or not. Most people learn more about their skin in these 45 minutes than in years of trying things.</p>
+      <p class="close">No obligation. No products pushed. Just the truth about your skin.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WATCH ONE -->
+<section class="watch">
+  <div class="wrap">
+    <div class="studio" data-reveal>
+      <div class="studio-vid">
+        <span class="tab">Real client footage</span>
+        <video controls playsinline preload="none" poster="../assets/daphne-skinread-poster.jpg">
+          <source src="../assets/daphne-skinread-web.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="studio-copy">
+        <span class="kick">Watch one with Daphne</span>
+        <h3>This is what a Skin Read looks like.</h3>
+        <p>Daphne filmed hers, from right before her first visit to everything she learned about her skin. Subtitles on, sound optional.</p>
+        <p class="close">She walked in guessing. She walked out with a map.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO READS -->
+<section class="who">
+  <div class="wrap">
+    <div class="pic" data-reveal>
+      <span class="tab">Priscilla &middot; Founder</span>
+      <img src="../assets/founder-priscilla.jpg" alt="Priscilla, founder of BeFound" style="object-position:50% 26%">
+    </div>
+    <div data-reveal>
+      <span class="kick">Who reads your skin</span>
+      <h2 class="sec-h" style="max-width:20ch">Ten years of reading skin, one barrier at a time.</h2>
+      <p class="lead" style="margin-top:1rem">Your Skin Read is done by a skin barrier specialist, not a salesperson on commission.</p>
+      <p>Priscilla has spent over ten years reading skin across Singapore and Japan, and built BeFound around one belief: barrier first, everything else after. More than 2,000 women have had their skin read here, most of them after years of trying everything else.</p>
+      <div class="creds">
+        <div><b>10+ yrs</b><span>reading skin, SG &amp; Japan</span></div>
+        <div><b>2,000+</b><span>barriers read at BeFound</span></div>
+        <div><b>1-on-1</b><span>every single session</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="proof">
+  <div class="wrap">
+    <h2 class="sec-h" data-reveal style="max-width:22ch">Weak barrier, then strong. See it.</h2>
+    <p class="lead" data-reveal style="margin:1rem 0 2.2rem;max-width:50ch">Real skin. Real barrier movement. No filters, no perfect lighting. Every one of them started with a Skin Read.</p>
+    <div class="proof-grid">
+      <figure class="tcase slider t-lar" data-reveal>
+        <img class="fillimg" src="../assets/larissa-before.jpg" alt="Larissa before">
+        <div class="ba-top"><img src="../assets/larissa-after.jpg" alt="Larissa after"></div>
+        <span class="ba-lab la">Before</span><span class="ba-lab lb">After</span>
+        <span class="ba-line"></span><span class="ba-knob">&#9664;&#9654;</span>
+        <input class="ba-range" type="range" min="0" max="100" value="94" aria-label="Drag to compare Larissa's skin before and after">
+        <figcaption class="ov"><blockquote>"I finally understand what my skin actually needs. The results speak for themselves."</blockquote><span class="who-lab">Larissa</span></figcaption>
+      </figure>
+      <figure class="tcase slider t-cher" data-reveal>
+        <img class="fillimg" src="../assets/chermaine-before.jpg" alt="Chermaine before">
+        <div class="ba-top"><img src="../assets/chermaine-after.jpg" alt="Chermaine after"></div>
+        <span class="ba-lab la">Before</span><span class="ba-lab lb">After</span>
+        <span class="ba-line"></span><span class="ba-knob">&#9664;&#9654;</span>
+        <input class="ba-range" type="range" min="0" max="100" value="94" aria-label="Drag to compare Chermaine's skin before and after">
+        <figcaption class="ov"><blockquote>"I didn't realise my routine was making my skin worse. Once we stripped it back and rebuilt it properly, everything finally made sense."</blockquote><span class="who-lab">Chermaine</span></figcaption>
+      </figure>
+      <figure class="tcase slider" data-reveal>
+        <img class="fillimg" src="../assets/aqilah-before.jpg" alt="Aqilah before">
+        <div class="ba-top"><img src="../assets/aqilah-after.jpg" alt="Aqilah after"></div>
+        <span class="ba-lab la">Before</span><span class="ba-lab lb">After</span>
+        <span class="ba-line"></span><span class="ba-knob">&#9664;&#9654;</span>
+        <input class="ba-range" type="range" min="0" max="100" value="94" aria-label="Drag to compare Aqilah's skin before and after">
+        <figcaption class="ov"><blockquote>"My skin finally feels calm for the first time in years. I didn't know what calm skin felt like until BeFound."</blockquote><span class="who-lab">Aqilah</span></figcaption>
+      </figure>
+      <figure class="tcase slider t-bry" data-reveal>
+        <img class="fillimg" src="../assets/bryna-before.jpg" alt="Bryna before">
+        <div class="ba-top"><img src="../assets/bryna-after.jpg" alt="Bryna after"></div>
+        <span class="ba-lab la">Before</span><span class="ba-lab lb">After</span>
+        <span class="ba-line"></span><span class="ba-knob">&#9664;&#9654;</span>
+        <input class="ba-range" type="range" min="0" max="100" value="94" aria-label="Drag to compare Bryna's skin before and after">
+        <figcaption class="ov"><blockquote>"My skin has never looked this clear. Years of layering products and making it worse, and all it needed was the right guidance."</blockquote><span class="who-lab">Bryna</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- GOOGLE REVIEWS -->
+<section class="reviews">
+  <div class="wrap">
+    <p class="rev-kicker" data-reveal>What our clients say</p>
+    <h2 class="sec-h rev-h" data-reveal>Straight from the people who've been there.</h2>
+    <div class="rev-summary" data-reveal>
+      <div class="rs-score">
+        <b>4.9</b>
+        <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="rs-count">1,500+ reviews</span>
+      </div>
+      <div class="rs-meta">
+        <div class="rs-brand">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          <b>Google Reviews</b>
+        </div>
+        <p>Singapore's most-reviewed skin journey studio</p>
+        <div class="rs-bars">
+          <div><span>5</span><i style="--w:94%"></i></div>
+          <div><span>4</span><i style="--w:5%"></i></div>
+          <div><span>3</span><i style="--w:2%"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="rev-grid" data-reveal>
+      <article class="rev-card">
+        <header><span class="av" style="background:#4285F4">Y</span><div class="rid"><b>Yvonne Tan</b><span><em>Local Guide</em> &middot; 8 reviews</span></div><span class="gdot" aria-hidden="true"></span></header>
+        <div class="rmeta"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="ago">3 years ago</span></div>
+        <p>The results are lasting. It's been 3 years and I have been diligently keeping to the routine customised for me through my 1-year journey with BeFound. I spend so much less on my skin now, no guesswork with products and I don't see a need for facials. I still don't get pimples much, if at all.</p>
+      </article>
+      <article class="rev-card">
+        <header><span class="av" style="background:#EA4335">A</span><div class="rid"><b>Amanda Tan</b><span>5 reviews</span></div><span class="gdot" aria-hidden="true"></span></header>
+        <div class="rmeta"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="ago">1 year ago</span></div>
+        <p>I started my BeFound journey in 2024 with oily, dull skin, scars and pigmentation. My complexion has become oil-controlled, brighter and less pimple-prone. I love my skin now! This is my 2nd year with BeFound.</p>
+      </article>
+      <article class="rev-card">
+        <header><span class="av" style="background:#1E88E5">J</span><div class="rid"><b>Jermaine Tan</b><span><em>Local Guide</em> &middot; 14 reviews</span></div><span class="gdot" aria-hidden="true"></span></header>
+        <div class="rmeta"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="ago">8 months ago</span></div>
+        <p>What I've learned from the skin journey program:</p>
+        <ul>
+          <li>Healthy skin barrier is everything. Be gentle, let skin heal naturally</li>
+          <li>Smart product use: check ingredients, patch test first</li>
+          <li>Simple, tailored routines work, no need to layer everything</li>
+        </ul>
+        <p>What worked for me: balancing my skin's oil levels. No more blotters or facials.</p>
+      </article>
+      <article class="rev-card">
+        <header><span class="av" style="background:#9C27B0">M</span><div class="rid"><b>May Ng</b><span>6 reviews</span></div><span class="gdot" aria-hidden="true"></span></header>
+        <div class="rmeta"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="ago">2 years ago</span></div>
+        <p>I've been with BeFound Studios for almost two years and the journey has been truly transformative. I first went because of my very dry and sensitive skin, almost every product I tried would eventually cause irritation. The team was patient, systematic, and incredibly knowledgeable. Today, my routine is simple, effective, and finally works for my skin. A special thank-you to Pris and Mag, your care and patience made all the difference.</p>
+      </article>
+      <article class="rev-card">
+        <header><span class="av" style="background:#FB8C00">R</span><div class="rid"><b>Razz Li</b><span><em>Local Guide</em> &middot; 22 reviews</span></div><span class="gdot" aria-hidden="true"></span></header>
+        <div class="rmeta"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="ago">1 year ago</span></div>
+        <p>It has truly been a meaningful and fulfilling experience. The team's sincerity and kind understanding gave me the faith to take part in the Skindewcation journey. They went the extra mile, ensuring my routine was correct, sharing practical tips, and guiding me with so much care. I've gained not only knowledge but renewed self-confidence.</p>
+      </article>
+      <article class="rev-card">
+        <header><span class="av" style="background:#34A853">D</span><div class="rid"><b>Debra J.</b><span>3 reviews</span></div><span class="gdot" aria-hidden="true"></span></header>
+        <div class="rmeta"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="ago">6 months ago</span></div>
+        <p>Did a one-year program with BeFound. Oily and very sensitive skin, it took systematic trial and error to find what worked. A month on from the program, my skin continues to steadily improve: getting thicker, hardly any pimples, and no longer reliant on dermatologist creams.</p>
+      </article>
+      <article class="rev-card">
+        <header><span class="av" style="background:#F4511E">C</span><div class="rid"><b>Callie Chia</b><span><em>Local Guide</em> &middot; 11 reviews</span></div><span class="gdot" aria-hidden="true"></span></header>
+        <div class="rmeta"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="ago">4 months ago</span></div>
+        <p>Every week they followed up and checked in on how my skin was doing, making changes as needed. I felt really supported in my journey. My skin is looking much better, brighter, with minimal breakouts. I'm leaving with newfound knowledge about my skin. Thank you BeFound team!</p>
+      </article>
+      <article class="rev-card">
+        <header><span class="av" style="background:#3949AB">J</span><div class="rid"><b>Janice Huang</b><span>4 reviews</span></div><span class="gdot" aria-hidden="true"></span></header>
+        <div class="rmeta"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="ago">2 years ago</span></div>
+        <p>My face has become much clearer and in a very healthy-looking condition. I had been purchasing products that didn't suit my skin without knowing it. Cosy, homely environment, always a comfortable follow-up session with a cup of tea while understanding my skin. Cheers to the whole professional BeFound team.</p>
+      </article>
+      <article class="rev-card">
+        <header><span class="av" style="background:#7B1FA2">S</span><div class="rid"><b>Sophia Chua</b><span>7 reviews</span></div><span class="gdot" aria-hidden="true"></span></header>
+        <div class="rmeta"><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="ago">5 months ago</span></div>
+        <p>My skin is more troubled than the average person's. Mid-journey I found out I couldn't use common ingredients like centella and hyaluronic acid. What I appreciate most is their upfront yet empathetic communication, and their help removing the mental load from researching, testing and monitoring every single product.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENT STORY PODS -->
+<section class="stories">
+  <div class="wrap">
+    <p class="st-kicker" data-reveal>Client stories</p>
+    <h2 class="sec-h" data-reveal style="max-width:22ch">From the women who've sat in the chair.</h2>
+    <p class="lead st-lead" data-reveal>Unscripted conversations about where their skin started and where it is now. Press play, sound on.</p>
+    <div class="st-grid">
+      <article class="st-card" data-reveal>
+        <video controls playsinline preload="none" poster="../assets/story-chermaine-poster.jpg">
+          <source src="../assets/story-chermaine.mp4" type="video/mp4">
+        </video>
+        <div class="st-info">
+          <b>Chermaine</b>
+          <span class="st-tags">Acne &middot; Products made it worse</span>
+          <span class="st-pill">Foundation-free skin</span>
+        </div>
+      </article>
+      <article class="st-card" data-reveal>
+        <video controls playsinline preload="none" poster="../assets/story-karynne-poster.jpg">
+          <source src="../assets/story-karynne.mp4" type="video/mp4">
+        </video>
+        <div class="st-info">
+          <b>Karynne</b>
+          <span class="st-tags">Stuck in facial dependency &middot; Oil control</span>
+          <span class="st-pill">Personalised clarity on what works</span>
+        </div>
+      </article>
+      <article class="st-card" data-reveal>
+        <video controls playsinline preload="none" poster="../assets/story-aqilah-poster.jpg">
+          <source src="../assets/story-aqilah.mp4" type="video/mp4">
+        </video>
+        <div class="st-info">
+          <b>Aqilah</b>
+          <span class="st-tags">Couldn't go out bare-faced &middot; Self-conscious</span>
+          <span class="st-pill">People compliment her skin now</span>
+        </div>
+      </article>
+    </div>
+    <div class="st-dots" id="stDots"></div>
+  </div>
+</section>
+
+<!-- PROMISE -->
+<section class="promise">
+  <div class="wrap">
+    <span class="kick" data-reveal>The no-pressure promise</span>
+    <h2 class="sec-h" data-reveal>You won't be sold to. You'll be told the truth.</h2>
+    <div class="vows">
+      <div class="vow" data-reveal><span class="n" aria-hidden="true"></span><p><strong>Nothing is prescribed in the room.</strong> No product list, no pressure at the counter. Your Findings go home with you, and the decision happens there.</p></div>
+      <div class="vow" data-reveal><span class="n" aria-hidden="true"></span><p><strong>If a program fits your skin, we'll say so once, plainly.</strong> What it is, what it does, how long it takes. Then it's your call.</p></div>
+      <div class="vow" data-reveal><span class="n" aria-hidden="true"></span><p><strong>If it doesn't fit, we'll tell you that too.</strong> Some barriers just need a simpler routine and time. If that's you, your Findings will say exactly that.</p></div>
+    </div>
+    <p class="micro-line" data-reveal>That's the whole pitch. There isn't another one waiting in the room.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="wrap">
+    <span class="kick" data-reveal>Before you book</span>
+    <h2 class="sec-h" data-reveal>Questions, answered straight.</h2>
+    <div class="list" data-reveal>
+      <details>
+        <summary>Do I need to take the Phase Check first?</summary>
+        <div class="a"><p>No. The scan reads everything we need on the day. If you're curious where your barrier stands before coming in, the <a href="../">Phase Check takes 90 seconds</a> and gives us useful context to start from.</p></div>
+      </details>
+      <details>
+        <summary>Is a Skin Read a facial?</summary>
+        <div class="a"><p>No. Nothing is applied to your skin and nothing is extracted. It's a measurement and a conversation: your barrier scanned at machine level, then explained, then mapped to a path.</p></div>
+      </details>
+      <details>
+        <summary>What happens after the 45 minutes?</summary>
+        <div class="a"><p>You take your Findings home. If a program fits your skin, we'll tell you once, plainly, and the decision is yours to make in your own time. There's no follow-up pressure.</p></div>
+      </details>
+      <details>
+        <summary>My skin is sensitive and reactive. Is this safe for me?</summary>
+        <div class="a"><p>Sensitive, reactive skin is exactly the skin we read most. Nothing touches your skin during the Read except the scan, and the whole point is finding out why your skin reacts the way it does.</p></div>
+      </details>
+      <details>
+        <summary>What should I bring?</summary>
+        <div class="a"><p>Just yourself. If you want to make the conversation sharper, bring the products you're currently using, or photos of them. Bare skin scans best, so come fresh-faced if you can.</p></div>
+      </details>
+      <details>
+        <summary>I've already tried everything. How is this different?</summary>
+        <div class="a"><p>Everything you've tried so far was chosen by guessing: by eye, by review, by recommendation. The Skin Read replaces the guessing with a measurement. Once you know exactly where your barrier stands, what to do next stops being a gamble.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK -->
+<section class="book" id="book">
+  <div class="wrap">
+    <h2 class="sec-h" data-reveal>Book your Skin Read.</h2>
+    <p class="lead" data-reveal style="margin-top:1rem">Pick a time that works. 45 minutes, one-on-one, at our studio.</p>
+    <div class="embed" data-reveal>
+      <iframe id="acuityFrame" src="" title="Schedule your Skin Read" frameborder="0" allow="payment"></iframe>
+    </div>
+    <script src="https://embed.acuityscheduling.com/js/embed.js" type="text/javascript" async></script>
+    <p class="micro" data-reveal>45 minutes &middot; No obligation &middot; You leave with your Findings either way</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <img src="../assets/Befound-logo-white.png" alt="BeFound">
+      <p>BeFound Studios &middot; Singapore. The Skin Barrier Specialists.</p>
+    </div>
+    <div class="connect">
+      <span class="ck">Connect</span>
+      <a href="https://www.instagram.com/befoundstudios/" target="_blank" rel="noopener">@befoundstudios</a>
+      <a href="https://api.whatsapp.com/send/?phone=6591055075&amp;text&amp;type=phone_number&amp;app_absent=0" target="_blank" rel="noopener">WhatsApp Us</a>
+      <a href="mailto:hello@befoundstudios.com">hello@befoundstudios.com</a>
+      <a href="#book">Book a Session</a>
+    </div>
+  </div>
+</footer>
+
+<div class="stickybar" id="stickyBar"><a href="#book">Book my Skin Read &rarr;</a></div>
+
+<script>
+(function(){
+  var qs=new URLSearchParams(location.search);
+  var noMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- retargeting personalization: quiz-takers arrive with ?score=&name= ----
+  var rawScore=parseInt(qs.get('score'),10);
+  var name=(qs.get('name')||'').trim();
+  var hasScore=!isNaN(rawScore);
+  var display=hasScore?Math.max(8,Math.min(96,rawScore)):null;
+  var phase=null,phaseColor='#CB6D51';
+  if(hasScore){
+    if(rawScore<=40){phase='PROTECT';phaseColor='#CB6D51'}
+    else if(rawScore<=70){phase='RESTORE';phaseColor='#C89A4E'}
+    else{phase='ELEVATE';phaseColor='#6E9C7C'}
+    var who=name?name.charAt(0).toUpperCase()+name.slice(1)+', y':'Y';
+    document.getElementById('heroH').textContent=who+'our barrier read '+display+'. This is the room where that changes.';
+    document.getElementById('orbCore').innerHTML='<span class="num">'+display+'</span><span>Barrier strength</span>';
+  }
+
+  // ---- filament orb: fully lit + pulsating; lights to score when one is present ----
+  (function(){
+    var svg=document.getElementById('orbSvg'),NS='http://www.w3.org/2000/svg';
+    var N=170,SPAN=360,R0=62,R1=140,pct=hasScore?display/100:1;
+    var dim=document.createElementNS(NS,'g');
+    var lit=document.createElementNS(NS,'g');lit.setAttribute('class','lit');lit.style.color=phaseColor;
+    for(var i=0;i<N;i++){
+      var t=i/(N-1);
+      var rnd=Math.sin((i+1)*12.9898)*43758.5453;rnd-=Math.floor(rnd);
+      var a=(225-t*SPAN)*Math.PI/180;
+      var r1=R1+rnd*34;
+      var sw=(13+rnd*15)*Math.PI/180;
+      var x0=Math.cos(a)*R0,y0=-Math.sin(a)*R0;
+      var xc=Math.cos(a+sw*.6)*(r1*.62),yc=-Math.sin(a+sw*.6)*(r1*.62);
+      var x1=Math.cos(a+sw)*r1,y1=-Math.sin(a+sw)*r1;
+      var d='M'+x0.toFixed(1)+' '+y0.toFixed(1)+' Q'+xc.toFixed(1)+' '+yc.toFixed(1)+' '+x1.toFixed(1)+' '+y1.toFixed(1);
+      var p=document.createElementNS(NS,'path');p.setAttribute('d',d);
+      var c=document.createElementNS(NS,'circle');c.setAttribute('cx',x1.toFixed(1));c.setAttribute('cy',y1.toFixed(1));c.setAttribute('r','1.8');
+      dim.appendChild(p);dim.appendChild(c);
+      if(t<=pct||i===0){
+        var p2=p.cloneNode(),c2=c.cloneNode();
+        var dl=noMotion?0:(t/Math.max(pct,.01))*1.5;
+        p2.style.transitionDelay=dl+'s';c2.style.transitionDelay=dl+'s';
+        p2.style.setProperty('--wd',(-t*3)+'s');c2.style.setProperty('--wd',(-t*3)+'s');
+        lit.appendChild(p2);lit.appendChild(c2);
+      }
+    }
+    svg.appendChild(dim);svg.appendChild(lit);
+    requestAnimationFrame(function(){requestAnimationFrame(function(){svg.classList.add('on')})});
+    if(!noMotion){setTimeout(function(){svg.classList.add('wave')},2300)}
+  })();
+
+  // ---- reveals ----
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1});
+  document.querySelectorAll('[data-reveal]').forEach(function(el){io.observe(el)});
+
+  // ---- scan readout bars fill when visible ----
+  var ro=document.getElementById('readout');
+  new IntersectionObserver(function(es,obs){es.forEach(function(e){if(e.isIntersecting){ro.classList.add('on');obs.disconnect()}})},{threshold:.35}).observe(ro);
+
+  // ---- client story carousel dots (scroll-snap row under 900px) ----
+  (function(){
+    var grid=document.querySelector('.st-grid'),wrap=document.getElementById('stDots');
+    if(!grid||!wrap)return;
+    var cards=[].slice.call(grid.querySelectorAll('.st-card'));
+    if(cards.length<2)return;
+    var dots=cards.map(function(c,i){
+      var b=document.createElement('button');b.type='button';
+      b.setAttribute('aria-label','Show client story '+(i+1));
+      b.addEventListener('click',function(){c.scrollIntoView({behavior:'smooth',inline:'start',block:'nearest'})});
+      wrap.appendChild(b);return b;
+    });
+    dots[0].classList.add('act');
+    var sio=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          var i=cards.indexOf(e.target);
+          dots.forEach(function(d,j){d.classList.toggle('act',j===i)});
+        }
+      });
+    },{root:grid,threshold:.6});
+    cards.forEach(function(c){sio.observe(c)});
+  })();
+
+  // ---- before/after sliders + peek ----
+  document.querySelectorAll('.slider .ba-range').forEach(function(r){
+    r.addEventListener('input',function(){r.closest('.slider').style.setProperty('--pos',r.value+'%')},{passive:true});
+  });
+  var sliders=[].slice.call(document.querySelectorAll('.slider'));
+  if(sliders.length&&!noMotion){
+    var peek=function(s,delay){var r=s.querySelector('.ba-range'),cancelled=false;
+      r.addEventListener('pointerdown',function(){cancelled=true},{once:true});
+      setTimeout(function(){var start=null,D=1400;
+        var step=function(t){if(cancelled)return;if(!start)start=t;var pr=Math.min((t-start)/D,1);
+          var v=94-20*Math.sin(Math.PI*pr);r.value=v;s.style.setProperty('--pos',v+'%');
+          if(pr<1)requestAnimationFrame(step)};
+        requestAnimationFrame(step)},delay);
+    };
+    var ioP=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){sliders.forEach(function(s,i){peek(s,i*200)});ioP.disconnect()}})},{threshold:.3});
+    ioP.observe(document.querySelector('.proof-grid'));
+  }
+
+  // ---- Acuity booking embed, prefilled when params exist ----
+  var acuity='https://befoundstudios.as.me/schedule/93684abe/appointment/79092713/calendar/11341975';
+  var qp=[];
+  if(name)qp.push('firstName='+encodeURIComponent(name));
+  var email=(qs.get('email')||'').trim();
+  if(email)qp.push('email='+encodeURIComponent(email));
+  document.getElementById('acuityFrame').src=acuity+(qp.length?'?'+qp.join('&'):'');
+
+  // ---- sticky mobile book bar: show after hero, hide at booking ----
+  var bar=document.getElementById('stickyBar');
+  var hero=document.querySelector('.hero'),bookSec=document.getElementById('book');
+  var pastHero=false,atBook=false;
+  var upd=function(){bar.classList.toggle('show',pastHero&&!atBook)};
+  new IntersectionObserver(function(es){es.forEach(function(e){pastHero=!e.isIntersecting});upd()},{threshold:.05}).observe(hero);
+  new IntersectionObserver(function(es){es.forEach(function(e){atBook=e.isIntersecting});upd()},{threshold:.05}).observe(bookSec);
+
+  // ---- Meta pixel stub (install alongside the results page pixel) ----
+  // fbq('track','ViewContent',{content_name:'skin-read-lander'});
+  // On Acuity confirmation, fire Schedule for the retargeting exclusion audience.
+})();
+</script>
+</body>
+</html>
