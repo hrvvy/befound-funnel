@@ -829,12 +829,12 @@ footer .connect a:hover{color:var(--bone)}
   }
 
   // ---- Acuity booking embed, prefilled when params exist ----
-  var acuity='https://befoundstudios.as.me/schedule/93684abe/appointment/79092713/calendar/11341975';
+  var acuity='https://app.acuityscheduling.com/schedule.php?owner=34408582&appointmentType=79092713&ref=embedded_csp';
   var qp=[];
   if(name)qp.push('firstName='+encodeURIComponent(name));
   var email=(qs.get('email')||'').trim();
   if(email)qp.push('email='+encodeURIComponent(email));
-  document.getElementById('acuityFrame').src=acuity+(qp.length?'?'+qp.join('&'):'');
+  document.getElementById('acuityFrame').src=acuity+(qp.length?'&'+qp.join('&'):'');
 
   // ---- sticky mobile book bar: show after hero, hide at booking ----
   var bar=document.getElementById('stickyBar');
